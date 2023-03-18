@@ -1,5 +1,5 @@
 const TelegramApi = require('node-telegram-bot-api');
-const {gameOptions, againOptions} = require('options.js');
+const {gameOptions, againOptions} = require('./options');
 const token = '6096055544:AAHF4-8dwRpkW6ShcEjcGCuhutb77lma-M4'
 
 
@@ -11,8 +11,7 @@ const chats = {};
 
 const startGame = async (chatID) => {
     bot.sendMessage(chatID, `Сейчас, я, загадаю число от 0 до 9, а ты должен ее угадать!`);
-    // const randomNumber = Math.floor(Math.random() * 10)
-    const randomNumber = 9;
+    const randomNumber = Math.floor(Math.random() * 10)
     chats[chatID] = randomNumber;
 
      bot.sendMessage(chatID, 'Отгадывай', gameOptions);
@@ -73,8 +72,8 @@ bot.on('callback_query', msg => {
 return startGame(chatID);
     }
 
-    if(data === chats[chatID]) {
-        return bot.sendMessage(chatID, `Поздравляю ! Ты угадал цифру - ${data}`);
+    if(data == chats[chatID]) {
+        return bot.sendMessage(chatID, `Поздравляю ! Ты угадал цифру - ${data}`, againOptions);
     } else {
         return bot.sendMessage(chatID, `К сожалению ты не угадал, бот загадал цифру ${chats[chatID]}`, againOptions);
     }
